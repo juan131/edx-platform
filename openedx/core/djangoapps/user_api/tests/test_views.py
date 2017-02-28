@@ -1784,6 +1784,7 @@ class ThirdPartyRegistrationTestMixin(ThirdPartyOAuthTestMixin, CacheIsolationTe
             "username": user.username if user else "test_username",
             "name": user.first_name if user else "test name",
             "email": user.email if user else "test@test.com",
+            "is_third_party_request": "true"
         }
 
     def _assert_existing_user_error(self, response):
