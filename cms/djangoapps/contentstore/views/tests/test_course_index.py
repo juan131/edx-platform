@@ -477,7 +477,7 @@ class TestCourseOutline(CourseTestCase):
         self.assertEqual(info['block_types'], deprecated_block_types)
         self.assertEqual(
             info['block_types_enabled'],
-            any(component in advanced_modules for component in deprecated_block_types)
+            [component for component in advanced_modules if component in deprecated_block_types]
         )
 
         self.assertItemsEqual(info['blocks'], expected_blocks)

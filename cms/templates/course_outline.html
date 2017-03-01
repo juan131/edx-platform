@@ -95,7 +95,7 @@ from openedx.core.djangolib.markup import HTML, Text
                 </p>
                 <nav class="nav-related" aria-label="${_('Unsupported Advance Modules')}">
                   <ul>
-                    % for block_type in deprecated_blocks_info['block_types']:
+                    % for block_type in deprecated_blocks_info['block_types_enabled']:
                       <li class="nav-item">${block_type}</li>
                     % endfor
                   </ul>
