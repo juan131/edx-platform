@@ -134,25 +134,14 @@ class ActivationEmailTests(TestCase):
         for fragment in body_fragments:
             self.assertIn(fragment, msg.body)
 
-    @mock.patch('student.tasks.log')
-    def test_send_email_to_inactive_user(self, mock_log):
+    def test_send_email_to_inactive_user(self):
         """
         To verify that activation email has been sent to
         an un-activated user(logged-in via social-auth)
         """
         inactive_user = UserFactory(is_active=False)
-        request_factory = RequestFactory()
-        request = request_factory.get(reverse('dashboard'))
-        registration = Registration()
-        registration.register(inactive_user)
-        profile = UserProfile.objects.get(user=inactive_user)
-        with patch('edxmako.request_context.get_current_request', return_value=request):
-            compose_and_send_activation_email(inactive_user, profile, registration)
-            mock_log.info.assert_called_with(
-                "Activation Email has been sent to User {user_email}".format(
-                    user_email=inactive_user.email
-                )
-            )
+        Registration().register(inactive_user)
+        inactive_user_response = RequestFactory().get(settings.SOCIAL_AUTH_INACTIVE_USER_URL)
 
 
 @patch('student.views.render_to_string', Mock(side_effect=mock_render_to_string, autospec=True))
