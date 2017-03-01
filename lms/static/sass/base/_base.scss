@@ -203,15 +203,11 @@ mark {
   box-shadow: 0 -1px 0 rgba(0, 0, 0, .3) inset;
   font-size: 14px;
 
-  .white-error-icon {
-    position: relative;
-    top: -4px;
-    float: left;
-    display: block;
-    width: 27px;
-    height: 24px;
-    margin-right: ($baseline*0.75);
-    background: url('#{$static-path}/images/large-white-error-icon.png') no-repeat;
+  .icon {
+    @include margin-right($baseline / 2);
+    @include float(left);
+    color: $white;
+    font-size: 18px;
   }
 
   .inner-wrapper {

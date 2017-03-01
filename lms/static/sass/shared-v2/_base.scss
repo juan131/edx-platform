@@ -22,3 +22,30 @@
 .sr {
     @extend .sr-only;
 }
+
+.site-status {
+  padding: ($baseline/2);
+  @include linear-gradient(top, $shadow-l1, rgba(0, 0, 0, .0));
+  background-color: $site-status-color;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, .3) inset;
+  font-size: 14px;
+
+  .icon {
+    @include margin-right($baseline / 2);
+    @include float(left);
+    color: $white;
+    font-size: 18px;
+  }
+
+  .inner-wrapper {
+    margin: auto;
+    max-width: 1180px;
+    min-width: 760px;
+  }
+
+  p {
+    margin-bottom: 0;
+    line-height: 1.3;
+    color: $white;
+  }
+}
