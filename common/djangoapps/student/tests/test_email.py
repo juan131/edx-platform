@@ -9,7 +9,7 @@ from student.views import (
     validate_new_email, SETTING_CHANGE_INITIATED
 )
 from student.models import UserProfile, PendingEmailChange, Registration
-from student.views import compose_and_send_activation_email
+from third_party_auth.views import inactive_user_view
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -134,15 +134,23 @@ class ActivationEmailTests(TestCase):
         for fragment in body_fragments:
             self.assertIn(fragment, msg.body)
 
-    def test_send_email_to_inactive_user(self):
+    @mock.patch('student.tasks.log')
+    def test_send_email_to_inactive_user(self, mock_log):
         """
         To verify that activation email has been sent to
         an un-activated user(logged-in via social-auth)
         """
         inactive_user = UserFactory(is_active=False)
         Registration().register(inactive_user)
-        inactive_user_response = RequestFactory().get(settings.SOCIAL_AUTH_INACTIVE_USER_URL)
-
+        request = RequestFactory().get(settings.SOCIAL_AUTH_INACTIVE_USER_URL)
+        request.user = inactive_user
+        with patch('edxmako.request_context.get_current_request'):
+            inactive_user_view(request)
+            mock_log.info.assert_called_with(
+                "Activation Email has been sent to User {user_email}".format(
+                    user_email=inactive_user.email
+                )
+            )
 
 @patch('student.views.render_to_string', Mock(side_effect=mock_render_to_string, autospec=True))
 @patch('django.contrib.auth.models.User.email_user')
