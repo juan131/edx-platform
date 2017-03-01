@@ -155,7 +155,7 @@ from openedx.core.djangolib.markup import HTML, Text
         <div id="dashboard-search-results" class="search-results dashboard-search-results"></div>
       % endif
 
-      % if len(order_history_list) or verification_status in ['approved', 'must_reverify', 'pending', 'expired']:
+      % if display_sidebar_on_dashboard:
         <div class="profile-sidebar" id="profile-sidebar" role="region" aria-label="Account Status Info">
           <header class="profile">
             <h2 class="account-status-title sr">${_("Account Status Info")}: </h2>
