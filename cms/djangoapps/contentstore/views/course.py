@@ -541,8 +541,7 @@ def _deprecated_blocks_info(course_module, deprecated_block_types):
         advance_settings_url (str): URL to advance settings page
     """
     data = {
-        'block_types': deprecated_block_types,
-        'block_types_enabled': [
+        'unsupported_enabled_block_types': [
             block_type for block_type in course_module.advanced_modules if block_type in deprecated_block_types
         ],
         'blocks': [],
