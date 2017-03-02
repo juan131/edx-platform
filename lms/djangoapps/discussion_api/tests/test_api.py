@@ -85,16 +85,25 @@ def _discussion_disabled_course_for(user):
 
 
 class ForumUrlResetMixin(UrlResetMixin):
+    """
+    Subclass of UrlResetMixin that is forums aware.
+
+    Since we just want forums URLs to always be active in these tests, there's
+    no need to reset between every test method, just once in the setUpClass /
+    tearDownClass steps.
+    """
     URLS_AUTO_RESET = False
 
     @classmethod
     def setUpClass(cls):
+        """Reset the URLs to include Forums views."""
         super(ForumUrlResetMixin, cls).setUpClass()
         with mock.patch.dict("django.conf.settings.FEATURES", {"ENABLE_DISCUSSION_SERVICE": True}):
             cls.reset_urls()
 
     @classmethod
     def tearDownClass(cls):
+        """Reset the URLs to the default."""
         super(ForumUrlResetMixin, cls).tearDownClass()
         cls.reset_urls()
 
