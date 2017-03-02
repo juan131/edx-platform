@@ -137,8 +137,8 @@ class ActivationEmailTests(TestCase):
     @mock.patch('student.tasks.log')
     def test_send_email_to_inactive_user(self, mock_log):
         """
-        To verify that activation email has been sent to
-        an un-activated user(logged-in via social-auth)
+        Tests that when an inactive user logs-in using the social auth, system
+        sends an activation email to the user.
         """
         inactive_user = UserFactory(is_active=False)
         Registration().register(inactive_user)
@@ -151,6 +151,7 @@ class ActivationEmailTests(TestCase):
                     user_email=inactive_user.email
                 )
             )
+
 
 @patch('student.views.render_to_string', Mock(side_effect=mock_render_to_string, autospec=True))
 @patch('django.contrib.auth.models.User.email_user')
